@@ -1,0 +1,14 @@
+.env
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.DS_Store
+outputs/**/*.mp4
+outputs/**/metadata.json
+characters/**/*.png
+characters/**/*.jpg
+characters/**/*.jpeg
+characters/**/*.webp

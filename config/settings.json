@@ -1,0 +1,9 @@
+{
+  "provider": "seedance",
+  "api_base_url": "https://ark.cn-beijing.volces.com/api/v3",
+  "default_model": "doubao-seedance-2-0-fast-260128",
+  "poll_interval_seconds": 8,
+  "task_timeout_seconds": 900,
+  "max_reference_images": 9,
+  "max_reference_image_bytes": 31457280
+}
