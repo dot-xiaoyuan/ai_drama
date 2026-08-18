@@ -80,7 +80,15 @@ class SeedanceClient:
     def wait_for_completion(self, task_id: str, settings: AppSettings) -> dict[str, Any]:
         started_at = time.monotonic()
         while True:
-            response = self.get_creation(task_id)
+            try:
+                response = self.get_creation(task_id)
+            except SeedanceError as exc:
+                if "网络异常" in str(exc) or "请求超时" in str(exc):
+                    print(f"[{datetime.now().strftime('%H:%M:%S')}] 遇到临时网络抖动，正在自动重试查询...")
+                    time.sleep(settings.poll_interval_seconds)
+                    continue
+                raise
+
             status = str(response.get("status", "unknown"))
             print(f"[{datetime.now().strftime('%H:%M:%S')}] {status}")
 
@@ -113,14 +121,24 @@ class SeedanceClient:
         return str(video_url)
 
     def _request(self, method: str, path: str, **kwargs: Any) -> dict[str, Any]:
-        try:
-            response = self._client.request(method, path, **kwargs)
-        except httpx.TimeoutException as exc:
-            raise SeedanceError("Seedance API 请求超时，请稍后重试。") from exc
-        except httpx.NetworkError as exc:
-            raise SeedanceError(f"Seedance API 网络异常：{exc}") from exc
-        except httpx.HTTPError as exc:
-            raise SeedanceError(f"Seedance API 请求异常：{exc}") from exc
+        max_retries = 3
+        last_exc: Exception | None = None
+        for attempt in range(max_retries):
+            try:
+                response = self._client.request(method, path, **kwargs)
+                break
+            except (httpx.TimeoutException, httpx.NetworkError, httpx.HTTPError) as exc:
+                last_exc = exc
+                if attempt < max_retries - 1:
+                    time.sleep(2 * (attempt + 1))
+                    continue
+                if isinstance(exc, httpx.TimeoutException):
+                    raise SeedanceError("Seedance API 请求超时，请稍后重试。") from exc
+                if isinstance(exc, httpx.NetworkError):
+                    raise SeedanceError(f"Seedance API 网络异常：{exc}") from exc
+                raise SeedanceError(f"Seedance API 请求异常：{exc}") from exc
+        else:
+            raise SeedanceError(f"Seedance API 请求失败：{last_exc}")
 
         try:
             body = response.json()

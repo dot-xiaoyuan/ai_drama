@@ -1,14 +1,38 @@
+# 环境变量与密钥
 .env
+.env.*
+!.env.example
+
+# Python 虚拟环境与缓存
 .venv/
 venv/
+env/
 __pycache__/
 *.py[cod]
+*$py.class
+*.so
 .pytest_cache/
 .mypy_cache/
+.ruff_cache/
+
+# 系统与 IDE 配置
 .DS_Store
-outputs/**/*.mp4
-outputs/**/metadata.json
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 运行日志与临时文件
+*.log
+scratch/
+
+# 输出产物（保留目录结构 .gitkeep，忽略生成视频与元数据）
+outputs/**
+!outputs/**/.gitkeep
+
+# 角色资产（保留目录结构 .gitkeep，忽略本地测试图片）
 characters/**/*.png
 characters/**/*.jpg
 characters/**/*.jpeg
 characters/**/*.webp
+!characters/**/.gitkeep
