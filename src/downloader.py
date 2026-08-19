@@ -11,9 +11,10 @@ from .models import DownloadError
 
 def next_output_path(output_dir: Path, shot_id: str, candidate_index: int) -> Path:
     output_dir.mkdir(parents=True, exist_ok=True)
+    clean_name = Path(shot_id).as_posix().replace("/", "_").replace("\\", "_")
     base_index = candidate_index
     while True:
-        path = output_dir / f"{shot_id}_v{base_index}.mp4"
+        path = output_dir / f"{clean_name}_v{base_index}.mp4"
         if not path.exists():
             return path
         base_index += 1

@@ -1,0 +1,12 @@
+{
+  "id": "ep01/shot_05",
+  "character": "hero",
+  "scene": "office_night",
+  "first_frame_from_shot": "ep01/shot_04",
+  "duration": 5,
+  "resolution": "720p",
+  "aspect_ratio": "9:16",
+  "candidate_count": 1,
+  "prompt": "紧接上一画面的工位姿态与手部位置，同一个年轻男性角色（林默）右手顺势抓起桌上带有蓝色瓶盖的透明塑料矿泉水瓶放在眼前仔细端详。男主的眼神在数秒内由最初的轻松随意，逐渐转变为瞳孔微缩、细思极恐的震惊与凝重。人物面部五官表情生动写实，与首帧和角色参考图严格一致。9:16竖屏面部与水瓶特写镜头，电影级悬疑光影。"
+}
+

@@ -18,7 +18,13 @@ from src.models import (
     ViduError,
 )
 from src.seedance_client import SeedanceClient
-from src.shot_loader import encode_reference_images, find_reference_images, load_shot
+from src.shot_loader import (
+    encode_image,
+    encode_reference_images,
+    find_reference_images,
+    load_shot,
+    resolve_first_frame,
+)
 from src.vidu_client import ViduClient
 
 
@@ -33,7 +39,12 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     generate = subparsers.add_parser("generate", help="生成指定 Shot")
-    generate.add_argument("shot_id", help="例如：shot_001")
+    generate.add_argument("shot_id", help="例如：ep01/shot_01 或 shot_001")
+    generate.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="仅校验 Shot 配置与参考图加载，不发起实际 API 调用",
+    )
     return parser
 
 
@@ -43,7 +54,7 @@ def main(argv: list[str] | None = None) -> int:
 
     try:
         if args.command == "generate":
-            return generate(args.shot_id)
+            return generate(args.shot_id, dry_run=args.dry_run)
     except KeyboardInterrupt:
         print("\n已取消。")
         return 130
@@ -55,24 +66,47 @@ def main(argv: list[str] | None = None) -> int:
     return 1
 
 
-def generate(shot_id: str) -> int:
+def generate(shot_id: str, *, dry_run: bool = False) -> int:
     settings = load_settings(PROJECT_ROOT)
     if settings.provider not in {"seedance", "vidu"}:
         raise ConfigError("当前仅支持 provider=seedance 或 provider=vidu。")
 
     shot = load_shot(PROJECT_ROOT, shot_id)
-    api_key = load_api_key(settings.provider)
-    reference_paths = find_reference_images(PROJECT_ROOT, shot.character, settings)
+    first_frame_path = resolve_first_frame(PROJECT_ROOT, shot)
+    first_frame_encoded = encode_image(first_frame_path) if first_frame_path else None
+
+    reference_paths = find_reference_images(
+        PROJECT_ROOT, shot.character, settings, scene=shot.scene
+    )
     reference_images = encode_reference_images(reference_paths)
 
-    print_header(shot, settings.default_model, reference_paths)
+    print_header(shot, settings.default_model, reference_paths, first_frame_path)
 
-    output_dir = PROJECT_ROOT / "outputs" / shot.id
+    if dry_run:
+        print()
+        print(">>> [Dry Run 预检通过]")
+        print(f"Provider        : {settings.provider}")
+        print(f"API Base URL    : {settings.api_base_url}")
+        if first_frame_path:
+            print(f"First Frame     : {first_frame_path.relative_to(PROJECT_ROOT)} (已完成首帧编码)")
+        print(f"Reference Images: {len(reference_images)} 张已成功加载并完成 base64 校验")
+        for idx, p in enumerate(reference_paths, 1):
+            print(f"  {idx}. {p.relative_to(PROJECT_ROOT)}")
+        print("Prompt 内容:")
+        print(f"  {shot.prompt}")
+        print()
+        print("Dry Run 模式下未调用第三方 API，未消耗额度。")
+        return 0
+
+    api_key = load_api_key(settings.provider)
+    output_dir = PROJECT_ROOT / "outputs" / Path(shot.id.strip("/\\"))
     metadata: dict[str, Any] = {
         "shot_id": shot.id,
         "provider": settings.provider,
         "prompt": shot.prompt,
         "character": shot.character,
+        "scene": shot.scene,
+        "first_frame": str(first_frame_path.relative_to(PROJECT_ROOT)) if first_frame_path else None,
         "references": [str(path.relative_to(PROJECT_ROOT)) for path in reference_paths],
         "created_at": datetime.now(timezone.utc).isoformat(),
         "candidates": [],
@@ -88,6 +122,7 @@ def generate(shot_id: str) -> int:
                 reference_images=reference_images,
                 output_dir=output_dir,
                 candidate_index=candidate_index,
+                first_frame=first_frame_encoded,
             )
             metadata["candidates"].append(candidate)
             write_metadata(output_dir, metadata)
@@ -122,6 +157,7 @@ def run_candidate(
     reference_images: list[str],
     output_dir: Path,
     candidate_index: int,
+    first_frame: str | None = None,
 ) -> dict[str, Any]:
     print()
     print(f"Submitting candidate {candidate_index}/{shot.candidate_count}...")
@@ -139,6 +175,7 @@ def run_candidate(
             settings=settings,
             reference_images=reference_images,
             candidate_index=candidate_index,
+            first_frame=first_frame,
         )
         task_id = str(create_response["task_id"])
         candidate["task_id"] = task_id
@@ -219,19 +256,28 @@ def sanitize_content(content: list[Any]) -> list[Any]:
     return sanitized
 
 
-def print_header(shot: Any, default_model: str, reference_paths: list[Path]) -> None:
+def print_header(
+    shot: Any,
+    default_model: str,
+    reference_paths: list[Path],
+    first_frame_path: Path | None = None,
+) -> None:
     print("=" * 50)
     print("AI Drama Generator")
     print("=" * 50)
     print()
-    print(f"Shot       : {shot.id}")
-    print(f"Character  : {shot.character}")
-    print(f"References : {len(reference_paths)}")
-    print(f"Model      : {shot.model or default_model}")
-    print(f"Duration   : {shot.duration}s")
-    print(f"Resolution : {shot.resolution}")
-    print(f"Aspect     : {shot.aspect_ratio}")
-    print(f"Candidates : {shot.candidate_count}")
+    print(f"Shot        : {shot.id}")
+    print(f"Character   : {shot.character}")
+    if shot.scene:
+        print(f"Scene       : {shot.scene}")
+    if first_frame_path:
+        print(f"First Frame : {first_frame_path.name}")
+    print(f"References  : {len(reference_paths)}")
+    print(f"Model       : {shot.model or default_model}")
+    print(f"Duration    : {shot.duration}s")
+    print(f"Resolution  : {shot.resolution}")
+    print(f"Aspect      : {shot.aspect_ratio}")
+    print(f"Candidates  : {shot.candidate_count}")
 
 
 def print_user_error(exc: DramaError) -> None:

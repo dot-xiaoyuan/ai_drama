@@ -75,6 +75,9 @@ class ShotConfig:
     resolution: str
     aspect_ratio: str
     candidate_count: int
+    scene: str | None = None
+    first_frame_from_shot: str | None = None
+    first_frame_path: str | None = None
     model: str | None = None
     seed: int | None = None
     movement_amplitude: str | None = None
@@ -115,8 +118,15 @@ class ShotConfig:
             prompt=str(data["prompt"]),
             duration=duration,
             resolution=str(data.get("resolution", "720p")),
-            aspect_ratio=str(data.get("aspect_ratio", "16:9")),
+            aspect_ratio=str(data.get("aspect_ratio", "9:16")),
             candidate_count=candidate_count,
+            scene=str(data["scene"]) if data.get("scene") else None,
+            first_frame_from_shot=str(data["first_frame_from_shot"])
+            if data.get("first_frame_from_shot")
+            else None,
+            first_frame_path=str(data["first_frame_path"])
+            if data.get("first_frame_path")
+            else None,
             model=str(data["model"]) if data.get("model") else None,
             seed=seed,
             movement_amplitude=str(data["movement_amplitude"])

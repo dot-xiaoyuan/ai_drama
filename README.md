@@ -58,86 +58,83 @@ VIDU_API_KEY=
 
 `.env` 已加入 `.gitignore`，不要提交 API Key。
 
-## 放角色图片
+## 资产准备
 
+### 1. 角色参考图
 把角色参考图放到：
 
 ```text
 characters/hero/
 ```
 
-支持：
+支持 `.png`、`.jpg`、`.jpeg`、`.webp`。例如：`closeup.png`（半身/特写）、`front.png`（正面全身）、`side.png`（侧面全身）。
+
+### 2. 场景母图库
+把高频复用的场景母图放到：
 
 ```text
-.png
-.jpg
-.jpeg
-.webp
+scenes/
 ```
 
-Seedance 2.0 系列最多支持 9 张参考图。当前使用官方支持的 base64 data URI 提交本地图片，单张图片限制为 30MB。
+例如：`office_night.png`（深夜办公室）、`vending_area_night.png`（深夜售货机）、`subway_exit_c.png`（地铁口长椅）、`apartment.png`（出租屋）。
 
-## 编辑镜头
+## 镜头配置
 
-编辑：
+支持按分集结构组织：
 
 ```text
-shots/shot_001/shot.json
+shots/ep01/shot_01/shot.json
 ```
 
-示例字段：
+示例配置：
 
 ```json
 {
-  "id": "shot_001",
+  "id": "ep01/shot_01",
   "character": "hero",
+  "scene": "office_night",
   "duration": 5,
   "resolution": "720p",
-  "aspect_ratio": "16:9",
+  "aspect_ratio": "9:16",
   "candidate_count": 1,
-  "prompt": "角色走在走廊里，停下并回头。"
+  "prompt": "同一个年轻男性角色在深夜昏暗的现代办公室工位上..."
 }
 ```
 
-可选字段：
+- 当配置 `scene` 时，系统会自动将角色图 + 场景母图打包作为 Seedance 2.0 多参考图一同提交。
 
-```text
-model
-seed
-movement_amplitude
-audio
+## 运行与预检
+
+### 1. 预检配置与参考图（不消耗额度）
+```bash
+python main.py generate ep01/shot_01 --dry-run
 ```
 
-默认模型是 `doubao-seedance-2-0-fast-260128`，默认 `audio=false`。
-
-## 运行
-
+### 2. 正式调用生成
 ```bash
-python main.py generate shot_001
+python main.py generate ep01/shot_01
 ```
 
 流程：
-
 ```text
-读取镜头配置
-读取角色参考图
+读取镜头配置与场景关联
+加载角色参考图 + 场景母图并完成 base64 编码
 提交 Seedance 视频生成任务
 轮询任务状态
-下载 MP4
+下载 MP4 至 outputs/ep01/shot_01/
 写入 metadata.json
 ```
 
 ## 查看结果
 
 ```text
-outputs/shot_001/
+outputs/ep01/shot_01/
 ```
 
 输出示例：
-
 ```text
-outputs/shot_001/shot_001_v1.mp4
-outputs/shot_001/metadata.json
+outputs/ep01/shot_01/ep01_shot_01_v1.mp4
+outputs/ep01/shot_01/metadata.json
 ```
 
 如果 `candidate_count` 大于 1，会依次创建多个独立任务。某个 candidate 失败不会删除已成功的视频。

@@ -42,16 +42,26 @@ class SeedanceClient:
         settings: AppSettings,
         reference_images: list[str],
         candidate_index: int,
+        first_frame: str | None = None,
     ) -> dict[str, Any]:
         content: list[dict[str, Any]] = [{"type": "text", "text": shot.prompt}]
-        content.extend(
-            {
-                "type": "image_url",
-                "image_url": {"url": image},
-                "role": "reference_image",
-            }
-            for image in reference_images
-        )
+        if first_frame:
+            content.append(
+                {
+                    "type": "image_url",
+                    "image_url": {"url": first_frame},
+                    "role": "first_frame",
+                }
+            )
+        else:
+            content.extend(
+                {
+                    "type": "image_url",
+                    "image_url": {"url": image},
+                    "role": "reference_image",
+                }
+                for image in reference_images
+            )
 
         payload: dict[str, Any] = {
             "model": shot.model or settings.default_model,
