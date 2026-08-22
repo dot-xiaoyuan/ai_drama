@@ -1,0 +1,23 @@
+{
+  "id": "black_frame/s02_shot_03",
+  "project": "black_frame",
+  "scene_number": "s02",
+  "scene_title": "十字路口救小孩",
+  "character": "lin_mo",
+  "scene": "black_frame_crosswalk",
+  "duration": 5,
+  "resolution": "720p",
+  "aspect_ratio": "9:16",
+  "candidate_count": 1,
+  "black_frame_type": "pre",
+  "emotion": "极致惊觉与奔跑冲出",
+  "first_frame_path": "shots/black_frame/s02_shot_03/first_frame.png",
+  "seedance_role": "first_frame",
+  "action": "林默眼神骤变，身体全力前倾迈出步伐，急速向前猛冲飞奔。",
+  "prompt": "Cinematic anime style film still, 9:16 vertical ratio. Continuing seamlessly from the first frame: The male lead Lin Mo's eyes sharpen with intense determination, his body lunging forward into a desperate, fast sprint towards the road. Fast dynamic camera tracking his motion, wind whipping his black hair and dark jacket violently, fluid 24fps high-speed anime motion, cinematic lighting, masterpiece, 8k.",
+  "acceptance_criteria": [
+    "严格以首帧特写为起点无变形生成。",
+    "起跑冲刺与运镜富有冲击力和流畅度。",
+    "五官与服装严格保持一致。"
+  ]
+}

@@ -45,6 +45,15 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="仅校验 Shot 配置与参考图加载，不发起实际 API 调用",
     )
+    generate.add_argument(
+        "--reference-mode",
+        choices=["shot", "scene-only", "none"],
+        default="shot",
+        help=(
+            "参考图加载模式：shot=按 shot 配置加载角色和场景；"
+            "scene-only=仅加载场景图；none=不加载参考图"
+        ),
+    )
     return parser
 
 
@@ -54,7 +63,11 @@ def main(argv: list[str] | None = None) -> int:
 
     try:
         if args.command == "generate":
-            return generate(args.shot_id, dry_run=args.dry_run)
+            return generate(
+                args.shot_id,
+                dry_run=args.dry_run,
+                reference_mode=args.reference_mode,
+            )
     except KeyboardInterrupt:
         print("\n已取消。")
         return 130
@@ -66,7 +79,12 @@ def main(argv: list[str] | None = None) -> int:
     return 1
 
 
-def generate(shot_id: str, *, dry_run: bool = False) -> int:
+def generate(
+    shot_id: str,
+    *,
+    dry_run: bool = False,
+    reference_mode: str = "shot",
+) -> int:
     settings = load_settings(PROJECT_ROOT)
     if settings.provider not in {"seedance", "vidu"}:
         raise ConfigError("当前仅支持 provider=seedance 或 provider=vidu。")
@@ -76,7 +94,14 @@ def generate(shot_id: str, *, dry_run: bool = False) -> int:
     first_frame_encoded = encode_image(first_frame_path) if first_frame_path else None
 
     reference_paths = find_reference_images(
-        PROJECT_ROOT, shot.character, settings, scene=shot.scene
+        PROJECT_ROOT,
+        shot.character,
+        settings,
+        scene=shot.scene,
+        reference_characters=shot.reference_characters,
+        explicit_reference_images=shot.reference_images,
+        include_character_references=reference_mode == "shot",
+        include_scene_references=reference_mode in {"shot", "scene-only"},
     )
     reference_images = encode_reference_images(reference_paths)
 
@@ -87,6 +112,7 @@ def generate(shot_id: str, *, dry_run: bool = False) -> int:
         print(">>> [Dry Run 预检通过]")
         print(f"Provider        : {settings.provider}")
         print(f"API Base URL    : {settings.api_base_url}")
+        print(f"Reference Mode  : {reference_mode}")
         if first_frame_path:
             print(f"First Frame     : {first_frame_path.relative_to(PROJECT_ROOT)} (已完成首帧编码)")
         print(f"Reference Images: {len(reference_images)} 张已成功加载并完成 base64 校验")
@@ -103,8 +129,11 @@ def generate(shot_id: str, *, dry_run: bool = False) -> int:
     metadata: dict[str, Any] = {
         "shot_id": shot.id,
         "provider": settings.provider,
+        "reference_mode": reference_mode,
         "prompt": shot.prompt,
         "character": shot.character,
+        "reference_characters": list(shot.reference_characters),
+        "reference_images": list(shot.reference_images),
         "scene": shot.scene,
         "first_frame": str(first_frame_path.relative_to(PROJECT_ROOT)) if first_frame_path else None,
         "references": [str(path.relative_to(PROJECT_ROOT)) for path in reference_paths],

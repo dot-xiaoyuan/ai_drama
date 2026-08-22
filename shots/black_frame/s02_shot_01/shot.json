@@ -1,0 +1,23 @@
+{
+  "id": "black_frame/s02_shot_01",
+  "project": "black_frame",
+  "scene_number": "s02",
+  "scene_title": "十字路口救小孩",
+  "character": "lin_mo",
+  "scene": "black_frame_crosswalk",
+  "duration": 5,
+  "resolution": "720p",
+  "aspect_ratio": "9:16",
+  "candidate_count": 1,
+  "black_frame_type": "none",
+  "emotion": "普通日常",
+  "first_frame_path": "shots/black_frame/s02_shot_01/first_frame.png",
+  "seedance_role": "first_frame",
+  "action": "林默站在斑马线前等红灯，微风吹拂发丝，背景车流行驶，红灯即将变绿。",
+  "prompt": "Cinematic anime style film still, 9:16 vertical ratio. Continuing seamlessly from the first frame: The male character Lin Mo stands calmly at the edge of the pedestrian crossing waiting for the light. City breeze gently flutters his dark hair and jacket collar. In the background, city traffic and other pedestrians move naturally. Smooth slow camera push-in on Lin Mo's thoughtful face as the red signal prepares to change. Fluid 24fps movement, realistic anime cinematography, masterpiece, 8k.",
+  "acceptance_criteria": [
+    "严格以首帧图为起点无变形生成。",
+    "微风发丝与背景动态自然流畅。",
+    "画面无文字和杂质。"
+  ]
+}

@@ -78,6 +78,8 @@ class ShotConfig:
     scene: str | None = None
     first_frame_from_shot: str | None = None
     first_frame_path: str | None = None
+    reference_characters: tuple[str, ...] = ()
+    reference_images: tuple[str, ...] = ()
     model: str | None = None
     seed: int | None = None
     movement_amplitude: str | None = None
@@ -112,6 +114,32 @@ class ShotConfig:
         if audio is not None and not isinstance(audio, bool):
             raise ShotError("audio 必须是 true 或 false。")
 
+        reference_characters_raw = data.get("reference_characters", [])
+        if reference_characters_raw is None:
+            reference_characters_raw = []
+        if not isinstance(reference_characters_raw, list):
+            raise ShotError("reference_characters 必须是字符串数组。")
+
+        reference_characters: list[str] = []
+        for item in reference_characters_raw:
+            if not isinstance(item, str) or not item.strip():
+                raise ShotError("reference_characters 必须是非空字符串数组。")
+            name = item.strip()
+            if name != str(data["character"]) and name not in reference_characters:
+                reference_characters.append(name)
+
+        reference_images_raw = data.get("reference_images", [])
+        if reference_images_raw is None:
+            reference_images_raw = []
+        if not isinstance(reference_images_raw, list):
+            raise ShotError("reference_images 必须是字符串数组。")
+
+        reference_images: list[str] = []
+        for item in reference_images_raw:
+            if not isinstance(item, str) or not item.strip():
+                raise ShotError("reference_images 必须是非空字符串数组。")
+            reference_images.append(item.strip())
+
         return cls(
             id=str(data["id"]),
             character=str(data["character"]),
@@ -127,6 +155,8 @@ class ShotConfig:
             first_frame_path=str(data["first_frame_path"])
             if data.get("first_frame_path")
             else None,
+            reference_characters=tuple(reference_characters),
+            reference_images=tuple(reference_images),
             model=str(data["model"]) if data.get("model") else None,
             seed=seed,
             movement_amplitude=str(data["movement_amplitude"])

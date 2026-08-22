@@ -1,0 +1,23 @@
+{
+  "id": "black_frame/s02_shot_04",
+  "project": "black_frame",
+  "scene_number": "s02",
+  "scene_title": "十字路口救小孩",
+  "character": "lin_mo",
+  "scene": "black_frame_crosswalk",
+  "duration": 5,
+  "resolution": "720p",
+  "aspect_ratio": "9:16",
+  "candidate_count": 1,
+  "black_frame_type": "void",
+  "emotion": "黑帧时间静止与极度震惊",
+  "first_frame_path": "shots/black_frame/s02_shot_04/first_frame.png",
+  "seedance_role": "first_frame",
+  "action": "黑帧静止空间中，林默扑倒在斑马线上紧紧护抱住小男孩，周围雨滴车轮悬空静止，林默震惊中缓缓抬头。",
+  "prompt": "Cinematic anime style film still, 9:16 vertical ratio. Continuing seamlessly from the first frame in the time-frozen black frame space: The male character Lin Mo holds the boy tightly on the asphalt crossing. All surrounding cars and airborne water droplets remain completely motionless in mid-air. In this eerie quiet freeze-frame, Lin Mo slowly and bewilderingly lifts his head, his wide eyes scanning the impossible frozen world around him in shock. Slow smooth camera tracking orbit, deep cool blue-grey tone, masterpiece, 8k.",
+  "acceptance_criteria": [
+    "严格以首帧静止画面为起点无变形生成。",
+    "周围车轮与水滴保持完全悬空静止。",
+    "林默动作从低头护抱到震惊缓慢抬头，神态自然传神。"
+  ]
+}

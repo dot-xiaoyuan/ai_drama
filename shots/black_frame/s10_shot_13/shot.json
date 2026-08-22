@@ -1,0 +1,29 @@
+{
+  "id": "black_frame/s10_shot_13",
+  "project": "black_frame",
+  "scene_number": "s10",
+  "scene_title": "街道对话和真相",
+  "character": "lin_mo",
+  "scene": "black_frame_flower_shop",
+  "duration": 5,
+  "resolution": "720p",
+  "aspect_ratio": "9:16",
+  "candidate_count": 1,
+  "black_frame_type": "void",
+  "emotion": "自我辩解破裂",
+  "continuity_anchor": "黑帧底噪 / 林默视线 / 白色郁金香 / 空洞物件",
+  "seedance_role": "reference_image",
+  "post_production": {
+    "text_ui": "所有文字、手机UI、备忘录、照片内容均后期叠加，不交给视频模型生成。",
+    "black_frame": "纯黑、静止、降饱和、胶片底噪、剪辑员遮罩主要后期完成。",
+    "sound": "黑帧前抽掉环境声，只保留极薄胶片转动底噪。"
+  },
+  "action": "林默说自己活得好好的，说到“不难过”时停住。",
+  "prompt": "《黑帧》写实电影感短片，场景：街道对话和真相。 林默说自己活得好好的，说到“不难过”时停住。 情绪：自我辩解破裂。 这是黑帧内部片段，现实世界静止、低饱和、冷色、像暂停胶片；黑帧内的关键存在可以有极轻微动作，具体出现对象只以本镜头动作为准。 不要生成文字、字幕、手机UI文字、备忘录文字；不要卡通化；不要夸张表演；不要恐怖怪物；保持写实电影感，9:16竖屏，动作自然，角色外貌与参考图一致。",
+  "acceptance_criteria": [
+    "只完成本 shot 描述的一个连续动作，不额外增加剧情。",
+    "人物外貌、服装、空间质感与参考图一致。",
+    "画面内不要出现可读文字，所有文字后期制作。",
+    "如果是黑帧内部，画面应低饱和、冷色、静止感强，不要变成恐怖片。"
+  ]
+}

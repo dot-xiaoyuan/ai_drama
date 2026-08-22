@@ -1,0 +1,32 @@
+{
+  "id": "black_frame/s01_shot_03",
+  "project": "black_frame",
+  "scene_number": "s01",
+  "scene_title": "卧室冷开场",
+  "character": "lin_mo",
+  "scene": "black_frame_home",
+  "duration": 5,
+  "resolution": "720p",
+  "aspect_ratio": "9:16",
+  "candidate_count": 1,
+  "black_frame_type": "none",
+  "emotion": "冷开场的悬置",
+  "continuity_anchor": "黑帧底噪 / 林默视线 / 白色郁金香 / 空洞物件",
+  "seedance_role": "reference_image",
+  "reference_images": [
+    "scenes/black_frame_home/home_bedroom_night.png"
+  ],
+  "post_production": {
+    "text_ui": "所有文字、手机UI、备忘录、照片内容均后期叠加，不交给视频模型生成。",
+    "black_frame": "纯黑、静止、降饱和、胶片底噪、剪辑员遮罩主要后期完成。",
+    "sound": "黑帧前抽掉环境声，只保留极薄胶片转动底噪。"
+  },
+  "action": "手机屏幕在黑暗卧室里短暂亮起，具体时间由后期叠加，画面极静。",
+  "prompt": "Cinematic anime style film still, 9:16 vertical ratio. Extreme close-up shot of a smartphone resting quietly on a dark wooden bedside table in a dim bedroom at night. The phone screen softly illuminates with a clean, faint white glow, casting subtle reflections onto the dark wood grain and the edge of a ceramic glass. Faint blue moonlight in the background, slow subtle cinematic macro focus, completely still and eerie atmosphere, masterpiece, 8k.",
+  "acceptance_criteria": [
+    "只完成本 shot 描述的一个连续动作，不额外增加剧情。",
+    "空间材质与前两个镜头保持一致。",
+    "画面内不要出现可读文字，所有文字后期制作。",
+    "画面低饱和、冷色、静止感强。"
+  ]
+}

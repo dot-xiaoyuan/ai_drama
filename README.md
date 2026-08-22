@@ -92,6 +92,7 @@ shots/ep01/shot_01/shot.json
 {
   "id": "ep01/shot_01",
   "character": "hero",
+  "reference_characters": ["supporting_character"],
   "scene": "office_night",
   "duration": 5,
   "resolution": "720p",
@@ -102,6 +103,9 @@ shots/ep01/shot_01/shot.json
 ```
 
 - 当配置 `scene` 时，系统会自动将角色图 + 场景母图打包作为 Seedance 2.0 多参考图一同提交。
+- 当同一镜头需要多个固定角色时，用 `reference_characters` 补充额外角色目录；主角色仍写在 `character`。
+- 当需要精确控制某个镜头使用哪些参考图时，用 `reference_images` 写入图片路径白名单；此时系统只加载这些图片。
+- 单个镜头的角色图、额外角色图、场景图总数不能超过 `max_reference_images`。
 
 ## 运行与预检
 

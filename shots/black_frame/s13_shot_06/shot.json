@@ -1,0 +1,34 @@
+{
+  "id": "black_frame/s13_shot_06",
+  "project": "black_frame",
+  "scene_number": "s13",
+  "scene_title": "最终黑帧反抗",
+  "character": "lin_mo",
+  "scene": "black_frame_home",
+  "duration": 5,
+  "resolution": "720p",
+  "aspect_ratio": "9:16",
+  "candidate_count": 1,
+  "black_frame_type": "void",
+  "emotion": "第一次反抗",
+  "continuity_anchor": "黑帧底噪 / 林默视线 / 白色郁金香 / 空洞物件",
+  "seedance_role": "reference_image",
+  "post_production": {
+    "text_ui": "所有文字、手机UI、备忘录、照片内容均后期叠加，不交给视频模型生成。",
+    "black_frame": "黑帧、降噪、冻结感、记忆裂缝亮度主要后期压制；Seedance 只负责林默站稳伸手的基础动作。",
+    "sound": "黑帧前抽掉环境声，只保留极薄胶片转动底噪。"
+  },
+  "action": "黑帧内部，林默双脚踩在地上，身体只是微微前倾，抬起右手伸向画外一段低亮度记忆裂缝。",
+  "prompt": "《黑帧》写实电影感短片，场景：最终黑帧反抗。黑帧内部的卧室，现实世界像暂停胶片一样冻结。林默双脚始终踩在地上，身体只是微微前倾，抬起右手伸向画外一段低亮度记忆裂缝。动作非常克制，像人在黑暗房间里努力够到一个看不见的东西，不是飞扑，不是跳跃，不是悬浮。记忆裂缝只是画面边缘一条很细的暗银色胶片裂光，不要做成明亮魔法光带。林默外貌锚点：27岁东亚男性，清瘦，黑色自然短发，浅蓝灰衬衫，深灰外套，疲惫但坚定。统一视觉风格：低饱和灰蓝色调，阴天漫射光，真实城市质感，轻微胶片颗粒，避免明亮清爽偶像剧色彩，避免高饱和绿植和干净商业广告感。黑帧质感：低饱和、冷蓝灰、静止、轻微胶片颗粒、暗角，空间真实，不要动作片。严格禁止飞起来、漂浮、跳跃、奔跑、超级英雄姿势、武侠轻功、魔法攻击、强烈发光、爆炸、粒子风暴。不要生成文字、字幕、手机UI文字、备忘录文字；不要卡通化；不要夸张表演；保持9:16竖屏。",
+  "acceptance_criteria": [
+    "林默双脚必须在地面上，不允许飞、跳、漂浮或向镜头扑。",
+    "动作只是一段克制伸手，不要生成动作片或超能力。",
+    "色彩必须接近黑帧参考：低饱和冷蓝灰、暗、静止。",
+    "记忆裂缝低亮度、细、克制，不要明亮魔法光带。"
+  ],
+  "reference_images": [
+    "scenes/black_frame_home/home_bedroom_night.png",
+    "scenes/black_frame_void/void_frozen_home.png",
+    "characters/editor_silhouette/silhouette.png"
+  ]
+}

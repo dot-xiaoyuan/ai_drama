@@ -35,39 +35,23 @@ def find_reference_images(
     character: str,
     settings: AppSettings,
     scene: str | None = None,
+    reference_characters: tuple[str, ...] = (),
+    explicit_reference_images: tuple[str, ...] = (),
+    include_character_references: bool = True,
+    include_scene_references: bool = True,
 ) -> list[Path]:
-    character_dir = project_root / "characters" / character
-    if not character_dir.exists() or not character_dir.is_dir():
-        raise ReferenceImageError(f"角色目录不存在：{character_dir}")
+    if explicit_reference_images:
+        images = _resolve_explicit_reference_images(project_root, explicit_reference_images)
+    else:
+        images: list[Path] = []
 
-    images = sorted(
-        path
-        for path in character_dir.iterdir()
-        if path.is_file() and path.suffix.lower() in VALID_IMAGE_EXTENSIONS
-    )
-    if not images:
-        raise ReferenceImageError(
-            f"角色 {character} 没有参考图片。请把 png/jpg/jpeg/webp 放到 {character_dir}"
-        )
+    if include_character_references and not explicit_reference_images:
+        images = _find_character_images(project_root, character)
+        for reference_character in reference_characters:
+            images.extend(_find_character_images(project_root, reference_character))
 
-    if scene:
-        scene_images: list[Path] = []
-        scenes_dir = project_root / "scenes"
-        if (scenes_dir / scene).is_dir():
-            scene_images = sorted(
-                p for p in (scenes_dir / scene).iterdir()
-                if p.is_file() and p.suffix.lower() in VALID_IMAGE_EXTENSIONS
-            )
-        else:
-            for ext in VALID_IMAGE_EXTENSIONS:
-                candidate = scenes_dir / f"{scene}{ext}"
-                if candidate.is_file():
-                    scene_images.append(candidate)
-                    break
-        if not scene_images:
-            raise ReferenceImageError(
-                f"场景参考图不存在：{scene}。请确保 scenes/{scene}.png 或 scenes/{scene}/ 存在。"
-            )
+    if include_scene_references and scene and not explicit_reference_images:
+        scene_images = _find_scene_images(project_root, scene)
         images.extend(scene_images)
 
     if len(images) > settings.max_reference_images:
@@ -88,6 +72,64 @@ def find_reference_images(
         )
 
     return images
+
+
+def _resolve_explicit_reference_images(
+    project_root: Path,
+    reference_images: tuple[str, ...],
+) -> list[Path]:
+    resolved: list[Path] = []
+    for item in reference_images:
+        path = project_root / item.strip("/\\")
+        if not path.exists() or not path.is_file():
+            raise ReferenceImageError(f"参考图不存在：{path}")
+        if path.suffix.lower() not in VALID_IMAGE_EXTENSIONS:
+            raise ReferenceImageError(
+                f"参考图格式不支持：{path}。仅支持 png/jpg/jpeg/webp。"
+            )
+        resolved.append(path)
+    return resolved
+
+
+def _find_character_images(project_root: Path, character: str) -> list[Path]:
+    character_dir = project_root / "characters" / character
+    if not character_dir.exists() or not character_dir.is_dir():
+        raise ReferenceImageError(f"角色目录不存在：{character_dir}")
+
+    images = sorted(
+        path
+        for path in character_dir.iterdir()
+        if path.is_file() and path.suffix.lower() in VALID_IMAGE_EXTENSIONS
+    )
+    if not images:
+        raise ReferenceImageError(
+            f"角色 {character} 没有参考图片。请把 png/jpg/jpeg/webp 放到 {character_dir}"
+        )
+
+    return images
+
+
+def _find_scene_images(project_root: Path, scene: str) -> list[Path]:
+    scene_images: list[Path] = []
+    scenes_dir = project_root / "scenes"
+    if (scenes_dir / scene).is_dir():
+        scene_images = sorted(
+            p
+            for p in (scenes_dir / scene).iterdir()
+            if p.is_file() and p.suffix.lower() in VALID_IMAGE_EXTENSIONS
+        )
+    else:
+        for ext in VALID_IMAGE_EXTENSIONS:
+            candidate = scenes_dir / f"{scene}{ext}"
+            if candidate.is_file():
+                scene_images.append(candidate)
+                break
+
+    if not scene_images:
+        raise ReferenceImageError(
+            f"场景参考图不存在：{scene}。请确保 scenes/{scene}.png 或 scenes/{scene}/ 存在。"
+        )
+    return scene_images
 
 
 def encode_image(path: Path) -> str:

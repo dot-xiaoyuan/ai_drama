@@ -1,0 +1,34 @@
+{
+  "id": "black_frame/s01_shot_01",
+  "project": "black_frame",
+  "scene_number": "s01",
+  "scene_title": "卧室冷开场",
+  "character": "lin_mo",
+  "scene": "black_frame_home",
+  "duration": 5,
+  "resolution": "720p",
+  "aspect_ratio": "9:16",
+  "candidate_count": 1,
+  "black_frame_type": "pre",
+  "emotion": "平静疲惫",
+  "continuity_anchor": "黑帧底噪 / 林默视线 / 白色郁金香 / 空洞物件",
+  "seedance_role": "reference_image",
+  "reference_images": [
+    "characters/lin_mo/home_costume.png",
+    "characters/lin_mo/closeup.png",
+    "scenes/black_frame_home/home_bedroom_night.png"
+  ],
+  "post_production": {
+    "text_ui": "所有文字、手机UI、备忘录、照片内容均后期叠加，不交给视频模型生成。",
+    "black_frame": "纯黑、静止、降饱和、胶片底噪、剪辑员遮罩主要后期完成。",
+    "sound": "黑帧前抽掉环境声，只保留极薄胶片转动底噪。"
+  },
+  "action": "林默夜里躺在床上，手机微光照亮疲惫的脸，他抬手准备关灯。",
+  "prompt": "Cinematic anime style film still, 9:16 vertical ratio. In a quiet, dimly lit modern bedroom at night, the 27-year-old male character Lin Mo is lying on the bed. A faint soft cool light from his phone screen illuminates his calm, slightly fatigued face and dark messy parted hair. He slowly and calmly raises his hand towards the bedside lamp, preparing to turn it off. Slow smooth camera push-in, subtle cinematic shadows, realistic anime movement, muted cool slate-blue tone, highly detailed, masterpiece, 8k.",
+  "acceptance_criteria": [
+    "只完成本 shot 描述的一个连续动作，不额外增加剧情。",
+    "人物外貌、服装、空间质感与参考图一致。",
+    "画面内不要出现可读文字，所有文字后期制作。",
+    "如果是黑帧内部，画面应低饱和、冷色、静止感强，不要变成恐怖片。"
+  ]
+}

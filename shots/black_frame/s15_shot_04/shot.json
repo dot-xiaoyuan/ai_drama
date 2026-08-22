@@ -1,0 +1,29 @@
+{
+  "id": "black_frame/s15_shot_04",
+  "project": "black_frame",
+  "scene_number": "s15",
+  "scene_title": "不要剪掉她",
+  "character": "lin_mo",
+  "scene": "black_frame_home",
+  "duration": 5,
+  "resolution": "720p",
+  "aspect_ratio": "9:16",
+  "candidate_count": 1,
+  "black_frame_type": "none",
+  "emotion": "继续生活",
+  "continuity_anchor": "黑帧底噪 / 林默视线 / 白色郁金香 / 空洞物件",
+  "seedance_role": "reference_image",
+  "post_production": {
+    "text_ui": "所有文字、手机UI、备忘录、照片内容均后期叠加，不交给视频模型生成。",
+    "black_frame": "纯黑、静止、降饱和、胶片底噪、剪辑员遮罩主要后期完成。",
+    "sound": "黑帧前抽掉环境声，只保留极薄胶片转动底噪。"
+  },
+  "action": "林默放下手机，起身出门。",
+  "prompt": "《黑帧》写实电影感短片，场景：不要剪掉她。 林默放下手机，起身出门。 情绪：继续生活。 这是正常现实片段，不出现黑帧，不出现超自然效果。 不要生成文字、字幕、手机UI文字、备忘录文字；不要卡通化；不要夸张表演；不要恐怖怪物；保持写实电影感，9:16竖屏，动作自然，角色外貌与参考图一致。",
+  "acceptance_criteria": [
+    "只完成本 shot 描述的一个连续动作，不额外增加剧情。",
+    "人物外貌、服装、空间质感与参考图一致。",
+    "画面内不要出现可读文字，所有文字后期制作。",
+    "如果是黑帧内部，画面应低饱和、冷色、静止感强，不要变成恐怖片。"
+  ]
+}

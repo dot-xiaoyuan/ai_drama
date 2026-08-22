@@ -1,0 +1,23 @@
+{
+  "id": "black_frame/s02_shot_02",
+  "project": "black_frame",
+  "scene_number": "s02",
+  "scene_title": "十字路口救小孩",
+  "character": "lin_mo",
+  "scene": "black_frame_crosswalk",
+  "duration": 5,
+  "resolution": "720p",
+  "aspect_ratio": "9:16",
+  "candidate_count": 1,
+  "black_frame_type": "pre",
+  "emotion": "危险将近但没人察觉",
+  "first_frame_path": "shots/black_frame/s02_shot_02/first_frame.png",
+  "seedance_role": "first_frame",
+  "action": "小男孩在斑马线上弯腰伸手捡红球，远处黑色轿车左转快速逼近，车灯照亮地面。",
+  "prompt": "Cinematic anime style film still, 9:16 vertical ratio. Continuing seamlessly from the first frame: The little boy in yellow hoodie reaches down to grab the red rubber ball on the asphalt crosswalk. In the background, the dark sedan continues its left turn, speeding towards the crossing with bright headlights reflecting on the pavement. High tension, dynamic continuous camera movement, fluid 24fps motion, realistic anime animation, masterpiece, 8k.",
+  "acceptance_criteria": [
+    "严格以首帧图为起点无变形生成。",
+    "小男孩弯腰捡球动作与车辆逼近动作自然连贯。",
+    "画面无文字和杂质。"
+  ]
+}

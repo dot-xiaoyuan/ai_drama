@@ -1,0 +1,32 @@
+{
+  "id": "black_frame/s02_shot_05",
+  "project": "black_frame",
+  "scene_number": "s02",
+  "scene_title": "十字路口救小孩",
+  "character": "lin_mo",
+  "scene": "black_frame_crosswalk",
+  "duration": 5,
+  "resolution": "720p",
+  "aspect_ratio": "9:16",
+  "candidate_count": 1,
+  "black_frame_type": "post",
+  "emotion": "劫后余生",
+  "continuity_anchor": "黑帧底噪 / 林默视线 / 白色郁金香 / 空洞物件",
+  "seedance_role": "reference_image",
+  "post_production": {
+    "text_ui": "所有文字、手机UI、备忘录、照片内容均后期叠加，不交给视频模型生成。",
+    "black_frame": "纯黑、静止、降饱和、胶片底噪、剪辑员遮罩主要后期完成。",
+    "sound": "黑帧前抽掉环境声，只保留极薄胶片转动底噪。"
+  },
+  "action": "世界恢复，汽车擦着小男孩急刹，妈妈一把抱住孩子大哭。",
+  "prompt": "《黑帧》写实电影感短片，场景：十字路口救小孩。 世界恢复，汽车擦着小男孩急刹，妈妈一把抱住孩子大哭。 情绪：劫后余生。 这是黑帧结束后的现实片段，世界恢复正常，人物不知道刚才发生过改变。 不要生成文字、字幕、手机UI文字、备忘录文字；不要卡通化；不要夸张表演；不要恐怖怪物；保持写实电影感，9:16竖屏，动作自然，角色外貌与参考图一致。统一视觉风格：低饱和灰蓝色调，阴天漫射光，真实城市质感，轻微胶片颗粒，避免明亮清爽偶像剧色彩。 林默外貌锚点：27岁东亚男性，清瘦，黑色自然短发，浅蓝灰衬衫，深灰外套，疲惫克制，不是偶像男主。参考图只用于统一低饱和灰蓝色彩和胶片颗粒，不要生成抽象色块；画面必须是现实城市十字路口。",
+  "acceptance_criteria": [
+    "只完成本 shot 描述的一个连续动作，不额外增加剧情。",
+    "人物外貌、服装、空间质感与参考图一致。",
+    "画面内不要出现可读文字，所有文字后期制作。",
+    "如果是黑帧内部，画面应低饱和、冷色、静止感强，不要变成恐怖片。"
+  ],
+  "reference_images": [
+    "scenes/black_frame_style/cold_grayblue_grade.png"
+  ]
+}

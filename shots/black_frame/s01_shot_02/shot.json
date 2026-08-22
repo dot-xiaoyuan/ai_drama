@@ -1,0 +1,34 @@
+{
+  "id": "black_frame/s01_shot_02",
+  "project": "black_frame",
+  "scene_number": "s01",
+  "scene_title": "卧室冷开场",
+  "character": "lin_mo",
+  "scene": "black_frame_home",
+  "duration": 5,
+  "resolution": "720p",
+  "aspect_ratio": "9:16",
+  "candidate_count": 1,
+  "black_frame_type": "post",
+  "emotion": "无意识的平静",
+  "continuity_anchor": "黑帧底噪 / 林默视线 / 白色郁金香 / 空洞物件",
+  "first_frame_from_shot": "black_frame/s01_shot_01",
+  "seedance_role": "first_frame",
+  "reference_images": [
+    "characters/lin_mo/home_costume.png",
+    "characters/lin_mo/closeup.png",
+    "scenes/black_frame_home/home_bedroom_night.png"
+  ],
+  "post_production": {
+    "text_ui": "所有文字、手机UI、备忘录、照片内容均后期叠加，不交给视频模型生成。",
+    "black_frame": "纯黑、静止、降饱和、胶片底噪、剪辑员遮罩主要后期完成。",
+    "sound": "黑帧前抽掉环境声，只保留极薄胶片转动底噪。"
+  },
+  "action": "按灭台灯，房间陷入幽暗，林默收回手臂躺平在枕头上，双眼平静闭合入睡。",
+  "prompt": "Cinematic anime style film still, 9:16 vertical ratio. Continuing seamlessly from the first frame: The hand presses the switch on the bedside lamp, turning it off. The bedroom instantly plunges into a dim, quiet night atmosphere illuminated only by the faint cold blue-grey moonlight through the window. The male character Lin Mo withdraws his arm, rests his head back onto the dark pillow, and peacefully closes his eyes to sleep. Calm, subtle breathing movement, slow cinematic camera, muted cool slate-blue palette, masterpiece, 8k.",
+  "acceptance_criteria": [
+    "首帧与上一镜头的结尾姿态自然衔接。",
+    "灯光熄灭过程自然，人物动作平稳躺下闭眼。",
+    "画面保持冷调写实厚涂质感，无画风突变。"
+  ]
+}
