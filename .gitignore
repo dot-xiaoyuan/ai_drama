@@ -30,9 +30,3 @@ scratch/
 outputs/**
 !outputs/**/.gitkeep
 
-# 角色资产（保留目录结构 .gitkeep，忽略本地测试图片）
-characters/**/*.png
-characters/**/*.jpg
-characters/**/*.jpeg
-characters/**/*.webp
-!characters/**/.gitkeep
